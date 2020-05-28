@@ -38,12 +38,12 @@
 						text="{ISBN}"/>
 					<Text text="{Author}" />
 					<Text text="{ 
-							path: 'DatePublished',
+							path: 'PublishDate',
 							type: 'sap.ui.model.type.Date'
                			}" 
 					/>
 					<Text text="{Language}" />
-					<Text text="{= parseInt(${NubmerAvailableBooks}) }" />
+					<Text text="{= parseInt(${NbAvailableBooks}) }" />
 				</cells>
 			</ColumnListItem>
 		</items>
