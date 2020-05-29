@@ -26,6 +26,24 @@ sap.ui.define([
 			}
         },
 
+        onBorrowedDialogOpen: function(event) {
+            var oView = this.getView();
+            if (!this.byId("borrowDialog") ) {
+				// load asynchronous XML fragment
+				Fragment.load({
+					id: oView.getId(),
+                    name: "org.ubb.books.view.BorrowedDialog",
+                    controller: this
+				}).then(function (oDialog) {
+					// connect dialog to the root view of this component (models, lifecycle)
+                    oView.addDependent(oDialog);
+					oDialog.open();
+				});
+			} else {
+				this.byId("borrowDialog").open();
+			}
+        },
+
         insertInputData: function() {
             var oItem = this.getView().byId("idBooksTable").getSelectedItem();
 
@@ -48,6 +66,10 @@ sap.ui.define([
 
         onCloseDialog : function () {
 			this.byId("addDialog").close();
+        },
+
+        onCloseBorrowedDialog : function () {
+			this.byId("borrowDialog").close();
         },
         
         onAddBook() {

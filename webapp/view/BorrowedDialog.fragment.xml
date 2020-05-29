@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+    xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.m">
+    <Dialog
+      id="borrowDialog"
+      title="Borrowed Books Dialog"
+      contentWidth="60rem">
+      <content>
+	 <Table id="idBorrowedTable"
+		items="{
+			path: '/BorrowedBooks',
+			sorter: {
+				path: 'Title'
+			}
+		}"
+		growing="true"
+		growingThreshold="10">
+        <columns>
+            <Column>
+                <Text text="Id" />
+            </Column>
+            <Column>
+                <Text text="Firstname" />
+            </Column>
+            <Column>
+                <Text text="Lastname" />
+            </Column>
+            <Column>
+                <Text text="Username" />
+            </Column>
+            <Column>
+                <Text text="ISBN" />
+            </Column>
+            <Column>
+                <Text text="Title" />
+            </Column>
+            <Column>
+                <Text text="Author" />
+            </Column>
+            <Column>
+                <Text text="CheckoutDate" />
+            </Column>
+            <Column>
+                <Text text="ReturnDate" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <Text text="{Id}" />
+                    <Text text="{Firstname}" />
+                    <Text text="{Lastname}" />
+                    <Text text="{Username}" />
+                    <Text text="{ISBN}" />
+                    <Text text="{Title}" />
+                    <Text text="{Author}" />
+                    <Text text="{ 
+                            path: 'CheckoutDate',
+                            type: 'sap.ui.model.type.DateTime'
+                        }" 
+                    />
+                    <Text text="{ 
+                            path: 'ReturnDate',
+                            type: 'sap.ui.model.type.DateTime'
+                        }" 
+                    />
+                </cells>
+            </ColumnListItem>
+        </items>
+
+	</Table>
+    </content>
+    <beginButton>
+        <Button
+            text="Cancel"
+            press=".onCloseBorrowedDialog"/>
+    </beginButton>
+</Dialog>
+</core:FragmentDefinition>
