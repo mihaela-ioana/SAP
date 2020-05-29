@@ -1,10 +1,10 @@
-<mvc:View
+<!-- <mvc:View
 	controllerName="org.ubb.books.controller.BookList"
     xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m">
 
-   <Table id="idBooksTable"
+	 <Table id="idBooksTable"
 		items="{
 			path: '/Books',
 			sorter: {
@@ -14,51 +14,97 @@
 		growing="true"
 		growingThreshold="10"
 		mode="SingleSelectLeft">
-
 		<headerToolbar>
-			<Toolbar>
-				<content>
-					<Button
-						text="Delete"
-						press="onDeleteBook"/>
-				</content>
-			</Toolbar>
-		</headerToolbar>
-	
-		<columns>
-			<Column>
-				<Text text="Title" />
-			</Column>
-			<Column>
-				<Text text="Author" />
-			</Column>
-			<Column>
-				<Text text="Published on" />
-			</Column>
-			<Column>
-				<Text text="Language" />
-			</Column>
+            <Toolbar>
+                <content>
+                    <Button
+                        id="addDialogButton"
+                        text="Add/Update"
+                        press="onBookDialogOpen"/>
+                    <Button
+                        text="Delete"
+                        press="onDeleteBook"/>
+                </content>
+            </Toolbar>
+        </headerToolbar>
+    
+        <columns>
+            <Column>
+                <Text text="Title" />
+            </Column>
+            <Column>
+                <Text text="Author" />
+            </Column>
+            <Column>
+                <Text text="Published on" />
+            </Column>
+            <Column>
+                <Text text="Language" />
+            </Column>
          <Column>
-				<Text text="Available books" />
-			</Column>
-		</columns>
-		<items>
-			<ColumnListItem>
-				<cells>
-					<ObjectIdentifier
-						title="{Title}"
-						text="{ISBN}"/>
-					<Text text="{Author}" />
-					<Text text="{ 
-							path: 'PublishDate',
-							type: 'sap.ui.model.type.Date'
-               			}" 
-					/>
-					<Text text="{Language}" />
-					<Text text="{= parseInt(${NbAvailableBooks}) }" />
-				</cells>
-			</ColumnListItem>
-		</items>
+                <Text text="Available books" />
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <ObjectIdentifier
+                        title="{Title}"
+                        text="{ISBN}"/>
+                    <Text text="{Author}" />
+                    <Text text="{ 
+                            path: 'PublishDate',
+                            type: 'sap.ui.model.type.Date'
+                        }" 
+                    />
+                    <Text text="{Language}" />
+                    <Text text="{= parseInt(${NbAvailableBooks}) }" />
+                </cells>
+            </ColumnListItem>
+        </items>
+
 	</Table>
-   
+</mvc:View> -->
+
+<mvc:View
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	controllerName="org.ubb.books.controller.BookList"
+	height="100%">
+
+	<!-- use this to make the table occupy the available screen height -->
+	<VBox fitContainer="true">
+		<smartFilterBar:SmartFilterBar id="smartFilterBar"
+			entitySet="Books" persistencyKey="SmartFilter_Explored">
+			<!-- layout data used to make the table growing but the filter bar fixed -->
+			<smartFilterBar:layoutData>
+				<FlexItemData shrinkFactor="0" />
+			</smartFilterBar:layoutData>
+		</smartFilterBar:SmartFilterBar>
+		<smartTable:SmartTable entitySet="Books" id="idBooksTable"
+			smartFilterId="smartFilterBar" useExportToExcel="true" beforeExport="onBeforeExport"
+			useVariantManagement="false" useTablePersonalisation="true" header="Products"
+			showRowCount="true" persistencyKey="SmartTableRefApp_Explored"
+			enableAutoBinding="true" class="sapUiResponsiveContentPadding"
+			initiallyVisibleFields="ISBN,Title,Author,PublishDate,Language,NbAvailableBooks"
+			tableType="ResponsiveTable" demandPopin="true">
+			<smartTable:customToolbar>
+				<OverflowToolbar design="Transparent">
+					<ToolbarSpacer/>
+					<OverflowToolbarButton icon="sap-icon://sort" text="Sort" press="onSort"/>
+					<Button id="addDialogButton" text="Add/Update" press="onBookDialogOpen" tooltip="Add/Update Book"/>
+					<Button id="deleteDialogButton" text="Delete" press="onDeleteBook"/>
+			</OverflowToolbar>
+			</smartTable:customToolbar>
+			<!-- layout data used to make the table growing but the filter bar fixed -->
+			<smartTable:layoutData>
+				<FlexItemData growFactor="1" baseSize="0%" />
+			</smartTable:layoutData>
+		</smartTable:SmartTable>
+	</VBox>
 </mvc:View>

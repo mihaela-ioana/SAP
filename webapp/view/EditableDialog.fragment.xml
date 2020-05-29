@@ -1,0 +1,45 @@
+ <content>
+			<smartmultiedit:Container id="multiEditContainer">
+				<smartmultiedit:layout>
+					<sf:SmartForm editable="true">
+						<sf:layout>
+							<sf:Layout labelSpanM="12" labelSpanL="12" labelSpanXL="12" />
+						</sf:layout>
+						<sf:groups>
+							<sf:Group>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="ISBN"/>
+									</sf:elements>
+								</sf:GroupElement>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="Title"/>
+									</sf:elements>
+								</sf:GroupElement>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="Author"/>
+									</sf:elements>
+								</sf:GroupElement>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="PublishDate"/>
+									</sf:elements>
+								</sf:GroupElement>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="Language"/>
+									</sf:elements>
+								</sf:GroupElement>
+								<sf:GroupElement>
+									<sf:elements>
+										<smartmultiedit:Field propertyName="NbAvailableBooks"/>
+									</sf:elements>
+								</sf:GroupElement>
+							</sf:Group>
+						</sf:groups>
+					</sf:SmartForm>
+				</smartmultiedit:layout>
+			</smartmultiedit:Container>
+            </content>
