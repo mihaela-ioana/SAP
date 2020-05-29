@@ -16,6 +16,13 @@
 		}"
 		growing="true"
 		growingThreshold="10">
+        <headerToolbar>
+         <Toolbar>
+            <Title text="Firstname}"/>
+            <ToolbarSpacer/>
+            <SearchField width="20%" search=".onFilterBorrowedBooks"/>
+         </Toolbar>
+        </headerToolbar>
         <columns>
             <Column>
                 <Text text="Id" />

@@ -13,6 +13,7 @@
         <Text text="PublishDate: "/><DateTimePicker id="newPublishDate" displayFormat="short" valueFormat="yyyy-MM-ddTHH:mm"></DateTimePicker>
         <Text text="Language: "/><Input id="newLanguage" type="Text"></Input>
         <Text text="Available Books: "/><Input id="newNbAvailableBooks" type="Text"></Input>
+        <Text text="Total Nb of Books: "/><Input id="newTotalNbBooks" type="Text"></Input>
       </content>
        <Button
             text="Add"
