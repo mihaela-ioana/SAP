@@ -225,18 +225,35 @@ sap.ui.define([
 			return this._oSmartTable;
         },
         
-        onFilterTitle: function (oEvent) {
-            var oView = this.getView();
-			var	sValue = oView.byId("searchFieldTitle").getValue();
-            var	oFilter = new Filter("Title", FilterOperator.Contains, sValue);
+        onFilter: function (oEvent) {
+            var isbn = this.getView().byId('searchFieldISBN').getValue();
+            var title = this.getView().byId('searchFieldTitle').getValue();
+            var author = this.getView().byId('searchFieldAuthor').getValue();
+            var language = this.getView().byId('searchFieldLanguage').getValue();
+            var startDate = this.getView().byId('searchFieldStartDate').getValue();
+            var endDate = this.getView().byId('searchFieldEndDate').getValue();
             
-            var oItemTemplate = sap.ui.getCore().byId("Title").clone();
-            oView.byId("idBorrowedTable").bindAggregation("items", {
-                path: "/BorrowedBooks",
-                template: oItemTemplate,
-                filters: [oFilter] 
-                });
+            var aFilter = [];
+            var oTable = this.getView().byId("idBooksTable");
+            var oBinding = oTable.getBinding("items");
 
+            //make only filters that were given as input
+            if(isbn != "") {
+                aFilter.push(new Filter("ISBN", FilterOperator.Contains, isbn));
+            }
+            if(title != "") {
+                aFilter.push(new Filter("Title", FilterOperator.Contains, title));
+            }
+            if(author != "") {
+                aFilter.push(new Filter("Author", FilterOperator.Contains, author));
+            }
+            if(language != "") {
+                aFilter.push(new Filter("Language", FilterOperator.Contains, language));
+            }
+            if(startDate != "" && endDate != "") {
+                aFilter.push(new Filter("PublishDate", FilterOperator.BT, startDate, endDate));
+            }
+            oBinding.filter(aFilter);
             // oView.byId("idBorrowedTable").getBinding("items").filter(oFilter, FilterType.Application);
             
 			// build filter array

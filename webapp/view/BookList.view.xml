@@ -4,6 +4,20 @@
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m">
 
+	<Toolbar>
+		<SearchField id="searchFieldISBN" width="15%" search=".onFilterTitle" placeholder="Filter after isbn."/>
+		<SearchField id="searchFieldTitle" width="15%" search=".onFilterTitle" placeholder="Filter after title."/>
+		<SearchField id="searchFieldAuthor" width="15%" search=".onFilterTitle" placeholder="Filter after author."/>
+		<SearchField id="searchFieldLanguage" width="15%" search=".onFilterTitle" placeholder="Filter after language."/>
+		<DatePicker id="searchFieldStartDate" width="10%" value=""/>
+		<DatePicker id="searchFieldEndDate" width="10%" value=""/>
+		<Button 
+			text="Filter"
+			press="onFilter"
+			enabled="true"
+		/>
+	</Toolbar>
+
 	 <Table id="idBooksTable"
 		items="{
 			path: '/Books'
