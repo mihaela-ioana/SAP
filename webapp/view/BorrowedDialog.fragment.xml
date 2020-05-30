@@ -1,4 +1,35 @@
-<core:FragmentDefinition
+<core:FragmentDefinition 
+        xmlns="sap.m" 
+        xmlns:core="sap.ui.core" 
+        xmlns:mvc="sap.ui.core.mvc" 
+        xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+        xmlns:smartTable="sap.ui.comp.smarttable" 
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        controllerName="org.ubb.books.controller.BookList" 
+        height="100%">
+    <Dialog
+      id="borrowDialog"
+      title="Borrowed Books Dialog"
+      contentWidth="60rem">
+      <content>
+            <smartTable:SmartTable id="idBorrowedTable" entitySet="BorrowedBooks" tableType="ResponsiveTable" smartFilterId="smartFilterBar"
+                                   placeToolbarInTable="true" useExportToExcel="true" beforeExport="onBeforeExport" useVariantManagement="false" useTablePersonalisation="true"
+                                   header="Borrowed Books" persistencyKey="SmartTableAnalytical_Explored" enableAutoBinding="true" demandPopin="true"
+                                   class="sapUiResponsiveContentPadding sapUiSizeCompact"
+                                   initiallyVisibleFields="FirstName,LastName,Username,ISBN,Author,Title,CheckoutDate,ReturnDate">
+                <smartTable:layoutData>
+                    <FlexItemData growFactor="1"/>
+                </smartTable:layoutData>
+            </smartTable:SmartTable>
+        </content>
+        <beginButton>
+        <Button
+            text="Cancel"
+            press=".onCloseBorrowedDialog"/>
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>
+<!-- <core:FragmentDefinition
     xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.m">
@@ -10,8 +41,9 @@
 	 <Table id="idBorrowedTable"
 		items="{
 			path: '/BorrowedBooks',
-			sorter: {
-				path: 'Title'
+			parameters: {
+				$count: true
+
 			}
 		}"
 		growing="true"
@@ -20,35 +52,35 @@
          <Toolbar>
             <Title text="Firstname}"/>
             <ToolbarSpacer/>
-            <SearchField width="20%" search=".onFilterBorrowedBooks"/>
+            <SearchField id="searchFieldTitle" width="20%" search=".onFilterTitle" placeholder="Filter after title."/>
          </Toolbar>
         </headerToolbar>
         <columns>
-            <Column>
+            <Column id="Id">
                 <Text text="Id" />
             </Column>
-            <Column>
+            <Column id="Firstname">
                 <Text text="Firstname" />
             </Column>
-            <Column>
+            <Column id="Lastname">
                 <Text text="Lastname" />
             </Column>
-            <Column>
+            <Column id="Username">
                 <Text text="Username" />
             </Column>
-            <Column>
+            <Column id="ISBN">
                 <Text text="ISBN" />
             </Column>
-            <Column>
+            <Column id="Title">
                 <Text text="Title" />
             </Column>
-            <Column>
+            <Column id="Author">
                 <Text text="Author" />
             </Column>
-            <Column>
+            <Column id="CheckoutDate">
                 <Text text="CheckoutDate" />
             </Column>
-            <Column>
+            <Column id="ReturnDate">
                 <Text text="ReturnDate" />
             </Column>
         </columns>
@@ -84,4 +116,4 @@
             press=".onCloseBorrowedDialog"/>
     </beginButton>
 </Dialog>
-</core:FragmentDefinition>
+</core:FragmentDefinition> -->

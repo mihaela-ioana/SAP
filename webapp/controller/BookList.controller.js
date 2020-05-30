@@ -4,9 +4,15 @@ sap.ui.define([
     "sap/ui/core/Fragment",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-   "sap/ui/model/resource/ResourceModel"
- ], function (Controller, MessageToast, Fragment, Filter, FilterOperator, ResourceModel) {
+	"sap/ui/model/FilterType",
+   "sap/ui/model/resource/ResourceModel",
+   "sap/ui/model/Sorter",
+   "sap/ui/table/library"
+ ], function (Controller, MessageToast, Fragment, Filter, FilterOperator, FilterType, ResourceModel, library, Sorter) {
     "use strict";
+    // shortcut for sap.ui.table.SortOrder
+    var SortOrder = library.SortOrder;
+    
     return Controller.extend("org.ubb.books.controller.BookList", {
 
         onInit : function () {
@@ -15,6 +21,10 @@ sap.ui.define([
                bundleName: "org.ubb.books.i18n.i18n"
             });
             this.getView().setModel(i18nModel, "i18n");
+
+            //Initial sorting
+			var oTitleColumn = this.getView().byId("title");
+			// this.getView().byId("idBooksTable").sort(oTitleColumn, sap.ui.table.SortOrder.Ascending);
          },
 
         onBookDialogOpen: function(event) {
@@ -184,6 +194,29 @@ sap.ui.define([
 				oSmartTable.openPersonalisationDialog("Sort");
 			}
         },
+
+        sortTitles : function(oEvent) {
+			var oView = this.getView();
+			var oTable = oView.byId("idBooksTable");
+			var oTitlesColumn = oView.byId("Title");
+
+			oTable.sort(oTitlesColumn, this._bSortColumnDescending ? SortOrder.Descending : SortOrder.Ascending, /*extend existing sorting*/true);
+			this._bSortColumnDescending = !this._bSortColumnDescending;
+		},
+
+        clearAllSortings : function(oEvent) {
+			var oTable = this.byId("idBooksTable");
+			oTable.getBinding("rows").sort(null);
+			this._resetSortingState();
+        },
+        
+        _resetSortingState : function() {
+			var oTable = this.byId("idBooksTable");
+			var aColumns = oTable.getColumns();
+			for (var i = 0; i < aColumns.length; i++) {
+				aColumns[i].setSorted(false);
+			}
+		},
         
         _getSmartTable: function () {
 			if (!this._oSmartTable) {
@@ -192,21 +225,33 @@ sap.ui.define([
 			return this._oSmartTable;
         },
         
-        onFilterBorrowedBooks: function (oEvent) {
+        onFilterTitle: function (oEvent) {
+            var oView = this.getView();
+			var	sValue = oView.byId("searchFieldTitle").getValue();
+            var	oFilter = new Filter("Title", FilterOperator.Contains, sValue);
+            
+            var oItemTemplate = sap.ui.getCore().byId("Title").clone();
+            oView.byId("idBorrowedTable").bindAggregation("items", {
+                path: "/BorrowedBooks",
+                template: oItemTemplate,
+                filters: [oFilter] 
+                });
 
+            // oView.byId("idBorrowedTable").getBinding("items").filter(oFilter, FilterType.Application);
+            
 			// build filter array
-			var aFilter = [];
-			var sQuery = oEvent.getParameter("query");
-			if (sQuery) {
-				var oFilter1 = new sap.ui.model.Filter("Firstname", sap.ui.model.FilterOperator.Contains, sQuery);
-                var oFilter2 = new sap.ui.model.Filter("Lastname", sap.ui.model.FilterOperator.Contains, sQuery);
-                var oFilter3 = new sap.ui.model.Filter("Title", sap.ui.model.FilterOperator.Contains, sQuery);
-                var oFilter4 = new sap.ui.model.Filter("Author", sap.ui.model.FilterOperator.Contains, sQuery);
-                var allFilter = new sap.ui.model.Filter([oFilter1, oFilter2, oFilter3, oFilter4], false); 
-                var oTable = this.getView().byId("idBorrowedTable");
-                var oBinding = oTable.getBinding("items");
-                oBinding.filter(allFilter);
-			}
+			// var aFilter = [];
+			// var sQuery = oEvent.getParameter("query");
+			// if (sQuery) {
+			// 	var oFilter1 = new sap.ui.model.Filter("Firstname", sap.ui.model.FilterOperator.Contains, sQuery);
+            //     var oFilter2 = new sap.ui.model.Filter("Lastname", sap.ui.model.FilterOperator.Contains, sQuery);
+            //     var oFilter3 = new sap.ui.model.Filter("Title", sap.ui.model.FilterOperator.Contains, sQuery);
+            //     var oFilter4 = new sap.ui.model.Filter("Author", sap.ui.model.FilterOperator.Contains, sQuery);
+            //     var allFilter = new sap.ui.model.Filter([oFilter1, oFilter2, oFilter3, oFilter4], false); 
+            //     var oTable = this.getView().byId("idBorrowedTable");
+            //     var oBinding = oTable.getBinding("items");
+            //     oBinding.filter(allFilter);
+			// }
 
 			// filter binding
 			// var oTable = this.byId("idBorrowedTable");
@@ -242,7 +287,7 @@ sap.ui.define([
                     success: () => {
                         MessageToast.show(sMsg);
                         this.byId("idBooksTable").getBinding("items").refresh();
-                        this.byId("idBorrowedTable").getBinding("items").refresh();
+                        // this.byId("idBorrowedTable").getBinding("items").refresh();
                     },
                     error: () => {
                         MessageToast.show(sMsgError);

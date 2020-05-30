@@ -6,10 +6,7 @@
 
 	 <Table id="idBooksTable"
 		items="{
-			path: '/Books',
-			sorter: {
-				path: 'Title'
-			}
+			path: '/Books'
 		}"
 		growing="true"
 		growingThreshold="10"
@@ -27,28 +24,40 @@
 					<Button
                         text="See Borrowed Books"
                         press="onBorrowedDialogOpen"/>
+					<Button
+						icon="sap-icon://sorting-ranking"
+						tooltip="Sort ascending across Author and Title"
+						press="sortAuthorAndTitle"/>
+					<Button
+						icon="sap-icon://sort"
+						tooltip="Sort Titiles"
+						press="sortTitles"/>
+					<Button
+						icon="sap-icon://decline"
+						tooltip="Clear all sortings"
+						press="clearAllSortings"/>
                 </content>
             </Toolbar>
         </headerToolbar>
     
         <columns>
-            <Column>
-                <Text text="Title" />
+            <Column id="title" sortProperty="Title">
+                <Text text="Title"/>
             </Column>
-            <Column>
-                <Text text="Author" />
+            <Column id="author" sortProperty="Author">
+                <Text text="Author"/>
             </Column>
-            <Column>
-                <Text text="Published on" />
+            <Column id="published" sortProperty="Published">
+                <Text text="Published on"/>
             </Column>
-            <Column>
-                <Text text="Language" />
+            <Column id="language" sortProperty="Language">
+                <Text text="Language"/>
             </Column>
-         	<Column>
-                <Text text="Available books" />
+         	<Column id="availableBooks" sortProperty="NbBooks">
+                <Text text="Available books"/>
             </Column>
-			<Column>
-                <Text text="Total number of books" />
+			<Column id="totalBooks" sortProperty="TotalBooks">
+                <Text text="Total number of books"/>
             </Column>
 			<Column>
 				<Text text="Borrow"/>
